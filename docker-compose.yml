@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    ports: 
+      - "5432"
+    environment:
+      - POSTGRES_DB=Test6
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+    container_name: postgres_db
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8000:8000
+    image: app:django 
+    container_name: django_container
+    command: >
+      sh -c  "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+    

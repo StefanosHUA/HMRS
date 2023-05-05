@@ -1,8 +1,13 @@
+from django.views.generic import ListView, CreateView, UpdateView
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import generic_User, working_Relations, AcademicTitle, WorkExperience, gradeTypes, employee_Class, employeeSpecialization, grades, salaryClass, employeeType
-from .serializer import UserSerializer, WR, Title, Experience, fullGrade, emp_Speci, emp_Cl, emp_Type
+from .models import *
+from .serializer import *
+#gradeTypes,
+
+#fullGrade,working_Relations, AcademicTitle,employee_Class, employeeSpecialization,WR, Title,emp_Speci, emp_Cl,
+
 # Create your views here.
 
 #GET
@@ -15,9 +20,9 @@ def getUser(request):
 
 
 @api_view(['GET'])
-def getTitle(request):
-    title = AcademicTitle.objects.all()
-    title_seri = Title(title, many=True)
+def getSpecType(request):
+    title = employeeSpecificType.objects.all()
+    title_seri = empSpecificType(title, many=True)
     return Response(title_seri.data)
 
 
@@ -30,33 +35,34 @@ def getExperience(request):
 
 
 @api_view(['GET'])
-def getGrade_Types(request):
-    grade = gradeTypes.objects.all()
-    grade_Seri = fullGrade(grade, many=True)
+def getPreviousGrades(request):
+    grade = grades.objects.all()
+    grade_Seri = gradesSer(grade, many=True)
     return Response(grade_Seri.data)
+
+
+
+@api_view(['GET'])
+def getPrevious_Salary_Class(request):
+    workRL = salaryClass.objects.all()
+    salary_CLass = Previous_Salary_Class(workRL, many=True)
+    return Response(salary_CLass.data)
 
 # ----------------------------------------
 #NEW GETS
 
-@api_view(['GET'])
-def getWorking_Relation(request):
-    workRL = working_Relations.objects.all()
-    workRL_serial = WR(workRL, many=True)
-    return Response(workRL_serial.data)
-
-
 
 @api_view(['GET'])
-def getSpecialization(request):
-    Spec = employeeSpecialization.objects.all()
-    Spec_Seri = emp_Speci(Spec, many=True)
+def getDEP(request):
+    Spec = depProfile.objects.all()
+    Spec_Seri = DEP(Spec, many=True)
     return Response(Spec_Seri.data)
 
 
 @api_view(['GET'])
-def getEmpClass(request):
-    empClass = employee_Class.objects.all()
-    class_Seri = emp_Cl(empClass, many=True)
+def getDP(request):
+    empClass = DPprofile.objects.all()
+    class_Seri = DP(empClass, many=True)
     return Response(class_Seri.data)
 
 
@@ -68,48 +74,13 @@ def getEmpType(request):
 
 
 
-@api_view(['GET'])
-def getGrade_Types(request):
-    grade = gradeTypes.objects.all()
-    grade_Seri = fullGrade(grade, many=True)
-    return Response(grade_Seri.data)
-
-
-@api_view(['GET'])
-def getGrade_Types(request):
-    grade = gradeTypes.objects.all()
-    grade_Seri = fullGrade(grade, many=True)
-    return Response(grade_Seri.data)
-
-
-grades, salaryClass, employeeType
-
-
 #POST
 
 
 @api_view(['POST'])
 def postUser(request):
     serializer = UserSerializer(data=request.data)
-    if serializer.is_vald():
+    if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
 
-
-
-@api_view(['POST'])
-def postWR(request):
-    serializer1 = WR(data=request.data)
-    if serializer1.is_vald():
-        serializer1.save()
-        return Response(serializer1.data)
-
-
-
-
-@api_view(['POST'])
-def postTitle(request):
-    title_seri = Title(data=request.data)
-    if title_seri.is_vald():
-        title_seri.save()
-        return Response(title_seri.data)

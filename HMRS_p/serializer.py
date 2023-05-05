@@ -1,52 +1,56 @@
 from rest_framework import serializers, viewsets
-from .models import  generic_User, working_Relations, AcademicTitle, WorkExperience, gradeTypes, employee_Class, employeeSpecialization, grades, salaryClass, employeeType
+from .models import  *
 
-
+#gradeTypes,working_Relations, AcademicTitle,employee_Class, employeeSpecialization,
 
 class UserSerializer(serializers.ModelSerializer):
+    #'employeeClass', 'employeeSpec', 'salaryCl', 'emp_Grades'
     class Meta:
         model = generic_User
         fields = ('user', 'givenName', 'surName', 'displayName', 'fathersName', 'mothersName', 'id', 'idIssuer', 'issueDate', 'birthDate', 'TIN', 'SSN', 'sex', 'nationality', 'address', 'homePhone', 'mobilePhone', 'email', 'workAddress',
-        'workingRelationName', 'employeeClass', 'employeeSpec', 'salaryCl', 'empType', 'title', 'emp_Grades')
+        'general_emp_Type', 'specific_emp_Type')
 
 
-class WR(serializers.ModelSerializer):
+class gradesSer(serializers.ModelSerializer):
     class Meta:
-        model = working_Relations
-        fields = ('fullName', 'shortName')
+        model = grades
+        fields = '__all__'
 
             
-class Title(serializers.ModelSerializer):
+class Previous_Salary_Class(serializers.ModelSerializer):
     class Meta:
-        model = AcademicTitle
-        fields = ('acadTitle',)
+        model = salaryClass
+        fields = '__all__'
 
 
 class Experience(serializers.ModelSerializer):
     class Meta:
         model = WorkExperience
-        fields = ('legal_status', 'organization', 'startDate', 'endDate', 'additional_info', 'grade', 'current_salaryClass', 'previous_salaryClass')
+        fields = '__all__'
 
-
-class fullGrade(serializers.ModelSerializer):
-    class Meta:
-        model = gradeTypes
-        fields = ('_class', 'specialization', 'grade')
-
-
-class emp_Speci(serializers.ModelSerializer):
-    class Meta:
-        model = employeeSpecialization
-        fields = ('fullname', 'shortname')
 
     
-class emp_Cl(serializers.ModelSerializer):
+class empSpecificType(serializers.ModelSerializer):
     class Meta:
-        model = employee_Class
-        fields = ('fullName', 'shortName')
+        model = employeeSpecificType
+        fields = '__all__'
 
 
 class emp_Type(serializers.ModelSerializer):
     class Meta:
         model = employeeType
-        fields = ('fulltTitle', 'shortTitle')
+        fields = ('myUser', 'fulltTitle', 'shortTitle')
+
+#ΔΕΠ 
+class DEP(serializers.ModelSerializer):
+    class Meta:
+        model = depProfile
+        fields = '__all__'
+
+
+#ΔΙΟΙΚΗΤΙΚΟ ΠΡΟΣΩΠΙΚΟ
+class DP(serializers.ModelSerializer):
+    class Meta:
+        model = DPprofile
+        fields = '__all__'
+       
